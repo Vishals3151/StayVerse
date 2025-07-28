@@ -110,10 +110,9 @@ app.use("/", userRouter);
 // Payment routes
 app.use("/payments", paymentRouter);
 
-app.get("/", (req, res) => {
-  res.render("/views/listings/index.ejs"); // This will render views/home.ejs
+app.get("/", async (req, res) => {
+  res.redirect("/listings"); // Render home page with listings
 });
-
 // ✅ Catch-All 404 Handler
 app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "PAGE NOT FOUND!!!")); // Pass 404 to error handler
