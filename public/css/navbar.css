@@ -1,0 +1,135 @@
+/* Navbar customization */
+nav.navbar {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(31, 42, 94, 0.1);
+  border-bottom: 1px solid #eaeaea;
+  padding: 0.75rem 1.25rem;
+}
+
+/* Brand icon */
+.navbar-brand {
+  font-size: 1.4rem;
+  color: #fe424d;
+}
+
+/* Navbar links */
+.navbar-nav .nav-link {
+  font-weight: 500;
+  margin-right: 1rem;
+  color: #333;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fe424d;
+}
+
+/* Search form */
+.search-form {
+  align-items: center;
+  background: #fff;
+  border-radius: 40px;
+  padding: 3px 8px 3px 15px;
+  box-shadow: 0 2px 12px 0 rgba(31, 42, 94, 0.10);
+  border: 1px solid #eee;
+  min-width: 280px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.btn-search {
+  background: #fe424d;
+  color: #fff;
+  border-radius: 40px;
+  padding: 6px 18px 6px 14px;
+  border: none;
+  font-weight: 500;
+  box-shadow: 0 2px 6px 0 rgba(31, 42, 94, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.btn-search:hover {
+  background: #fe424d;
+  color: #fff;
+}
+
+.btn-search i {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.search-container {
+  position: relative; /* Important for absolutely positioned dropdowns */
+  width: 100%;
+  max-width: 500px; /* Or whatever fits your layout */
+  margin: auto; /* Optional to center it */
+}
+
+#suggestionsList:empty {
+  display: none;
+}
+
+#suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999; /* Make sure it floats above other content */
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#suggestionsList li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#suggestionsList li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Mobile search responsiveness */
+@media (max-width: 768px) {
+  .search-form {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .collapse.navbar-collapse {
+    background: linear-gradient(135deg, #ffffff, #f2f2f2);
+    border-radius: 16px;
+    padding: 1.2rem;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease-in-out;
+
+    box-shadow: 0 12px 24px rgba(255, 0, 0, 0.08); /* light red tint */
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    margin-top: 0.5rem;
+  }
+  .navbar-nav .nav-link {
+    padding-left: 0;
+  }
+
+  .search-container {
+    background-color: transparent !important;
+  }
+
+  .btn-search {
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+}

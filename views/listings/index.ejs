@@ -1,0 +1,63 @@
+<% layout("layouts/boilerplate.ejs") %>
+<div id="filters" class="filters-container">
+  <div class="filter" data-filter="featured" onclick="filterListings('featured')">
+    <div><i class="fa-solid fa-star"></i></div>
+    <p>Featured</p>
+  </div>
+  <div class="filter" data-filter="luxury" onclick="filterListings('luxury')">
+    <div><i class="fa-solid fa-gem"></i></div>
+    <p>Luxury</p>
+  </div>
+  <div class="filter" data-filter="cozy" onclick="filterListings('cozy')">
+    <div><i class="fa-solid fa-home"></i></div>
+    <p>Cozy Homes</p>
+  </div>
+  <div class="filter" data-filter="adventure" onclick="filterListings('adventure')">
+    <div><i class="fa-solid fa-hiking"></i></div>
+    <p>Adventure</p>
+  </div>
+  <div class="filter" data-filter="nature" onclick="filterListings('nature')">
+    <div><i class="fa-solid fa-tree"></i></div>
+    <p>In Nature</p>
+  </div>
+  <div class="filter" data-filter="beach" onclick="filterListings('beach')">
+    <div><i class="fa-solid fa-water"></i></div>
+    <p>Beachfront</p>
+  </div>
+  <div class="filter" data-filter="unique" onclick="filterListings('unique')">
+    <div><i class="fa-solid fa-cubes"></i></div>
+    <p>Unique Stays</p>
+  </div>
+  <div class="filter" data-filter="family" onclick="filterListings('family')">
+    <div><i class="fa-solid fa-users"></i></div>
+    <p>Family Friendly</p>
+  </div>
+  <div class="filter" data-filter="budget" onclick="filterListings('budget')">
+    <div><i class="fa-solid fa-wallet"></i></div>
+    <p>Budget Picks</p>
+  </div>
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Display Taxes</label>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <%for(let listing of allListings) {%>
+        <a href="/listings/<%=listing._id%>" class="listing-link">
+            <div class="card col listing-card">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing_image" style = "height: 20rem">
+                <div class="card-img-overlay"></div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <B><%= listing.title %></B><br>
+                        &#x20b9; <%= listing.price.toLocaleString("en-IN") %> / night
+                        <i class="tax-info">&nbsp;+18% GST</i>
+                    </p>
+                </div>
+            </div>
+        </a>
+    <%}%>
+</div>

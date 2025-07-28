@@ -1,0 +1,10 @@
+    .btn-se {
+        background-color: #fe424d;
+        color: white;
+        font-weight: 500;
+    }
+
+    .btn-se:hover {
+        background-color: #e03a45;
+        color: white;
+    }

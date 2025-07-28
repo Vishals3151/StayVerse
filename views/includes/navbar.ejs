@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Flex wrapper for left, center, right -->
+      <div class="d-flex w-100 align-items-center justify-content-between flex-wrap">
+        <!-- Left -->
+        <div class="navbar-nav me-auto">
+          <a class="nav-link" href="/listings">Explore</a>
+        </div>
+
+        <!-- Center (search bar) -->
+        <div class="search-container">
+          <form class="d-flex justify-content-center mx-auto search-form" action="/listings/search" method="GET" role="search">  
+            <input id="searchInput" class="form-control search-input" type="text" name="q" placeholder="Search..." autocomplete="off" aria-label="Search" />
+            <button class="btn btn-search" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>Search
+            </button>
+            <ul id="suggestionsList" class="list-group position-absolute bg-white w-100 mt-1 shadow" style="z-index: 1000;"></ul>
+          </form>
+        </div>    
+
+        <!-- Right: Collapsible Dropdown on Mobile -->
+        <div class="navbar-nav ms-auto d-none d-md-flex">
+          <a class="nav-link" href="/listings/new">Start Hosting</a>
+          <% if (!currentUser) { %>
+            <a class="nav-link" href="/signup"><b>Sign up</b></a>
+            <a class="nav-link" href="/login"><b>Log in</b></a>
+          <% } else { %>
+            <a href="/bookings" class="nav-link">View My Bookings</a>
+            <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } %>
+        </div>
+
+        <!-- Mobile dropdown trigger -->
+        <div class="d-md-none ms-auto">
+          <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/listings/new">Start Hosting</a></li>
+              <% if (!currentUser) { %>
+                <li><a class="dropdown-item" href="/signup">Sign up</a></li>
+                <li><a class="dropdown-item" href="/login">Log in</a></li>
+              <% } else { %>
+                <li><a class="dropdown-item" href="/bookings">Bookings</a></li>
+                <li><a class="dropdown-item" href="/logout">Log out</a></li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

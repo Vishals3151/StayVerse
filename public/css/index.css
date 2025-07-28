@@ -1,0 +1,67 @@
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; /* center on smaller screens */
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .filter {
+    text-align: center;
+    flex: 0 1 80px; /* flexible width */
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter i {
+    font-size: 1.2rem;
+  }
+
+  .filter p {
+    font-size: 0.8rem;
+    margin: 0.25rem 0 0;
+  }
+
+  .tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Responsive card images */
+  .listing-card img {
+    height: 16rem;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .tax-toggle {
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .listing-card img {
+      height: 14rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .filter {
+      flex: 0 1 70px;
+    }
+
+    .listing-card img {
+      height: 12rem;
+    }
+  }

@@ -1,0 +1,156 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Complete Your Booking</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Listing Summary -->
+                    <div class="listing-summary mb-4 p-3 bg-light rounded">
+                        <h4><%= listing.title %></h4>
+                        <p><strong>Location:</strong> <%= listing.location %></p>
+                        <p><strong>Price:</strong> ₹<%= listing.price %> per night</p>
+                    </div>
+
+                    <!-- Booking Form -->
+                    <form id="booking-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="checkIn" class="form-label">Check-in Date</label>
+                                    <input type="date" class="form-control" id="checkIn" name="checkIn" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="checkOut" class="form-label">Check-out Date</label>
+                                    <input type="date" class="form-control" id="checkOut" name="checkOut" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="guests" class="form-label">Number of Guests</label>
+                            <input type="number" class="form-control" id="guests" name="guests" min="1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="total-amount" id="totalAmount">
+                                <h5>Total Amount: ₹<span id="amount">0</span></h5>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100" id="pay-btn">
+                            Pay Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const listingPrice = <%= listing.price %>;
+const razorpayKeyId = "<%= razorpayKeyId %>";
+const listingId = "<%= listing._id %>";
+
+// Calculate total amount dynamically
+function calculateTotal() {
+    const checkIn = new Date(document.getElementById('checkIn').value);
+    const checkOut = new Date(document.getElementById('checkOut').value);
+    
+    if (checkIn && checkOut && checkOut > checkIn) {
+        const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+        const total = listingPrice * nights;
+        document.getElementById('amount').textContent = total;
+        return total;
+    }
+    return 0;
+}
+
+// Add event listeners for date changes
+document.getElementById('checkIn').addEventListener('change', calculateTotal);
+document.getElementById('checkOut').addEventListener('change', calculateTotal);
+
+// Handle form submission
+document.getElementById('booking-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        listingId: listingId,
+        checkIn: document.getElementById('checkIn').value,
+        checkOut: document.getElementById('checkOut').value,
+        guests: document.getElementById('guests').value
+    };
+    
+    const totalAmount = calculateTotal();
+    if (totalAmount <= 0) {
+        alert('Please select valid dates');
+        return;
+    }
+    
+    try {
+        // Create order
+        const response = await fetch('/payments/create-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const orderData = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(orderData.error);
+        }
+        
+        // Initialize Razorpay payment
+        const options = {
+            key: razorpayKeyId,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: "StayVerse Booking",
+            description: "Room Booking Payment",
+            order_id: orderData.orderId,
+            handler: async function (response) {
+                // Verify payment on server
+                const verifyResponse = await fetch('/payments/verify-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(response)
+                });
+                
+                const verifyData = await verifyResponse.json();
+                
+                if (verifyData.status === 'success') {
+                    window.location.href = '/payments/success';
+                } else {
+                    alert('Payment verification failed');
+                }
+            },
+            prefill: {
+                name: "<%= currentUser ? currentUser.username : '' %>",
+                email: "<%= currentUser ? currentUser.email : '' %>"
+            },
+            theme: {
+                color: "#3399cc"
+            }
+        };
+        
+        const rzp = new Razorpay(options);
+        rzp.open();
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error creating order: ' + error.message);
+    }
+});
+</script>
