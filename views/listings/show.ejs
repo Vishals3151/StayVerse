@@ -22,27 +22,24 @@
             <p class="card-text"><%= listing.country %></p>
         </div>
 
-<!-- Admin Controls -->
-<% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
-    <div class="d-flex flex-column flex-md-row gap-3 mb-5">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4">Edit</a>
-        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-dark px-4 mt-2 mt-md-0">Delete</button>
-        </form>
-    </div>
-<% } %>
+        <!-- Admin Controls -->
+        <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
+            <div class="d-flex flex-column flex-md-row gap-3 mb-5">
+                <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4">Edit</a>
+                <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-dark px-4 mt-2 mt-md-0">Delete</button>
+                </form>
+            </div>
+        <% } %>
 
-<!-- Booking Button -->
-<div class="d-flex flex-column flex-md-row gap-3 mb-5">
-    <% if(currentUser) { %>
-        <a href="/payments/checkout/<%= listing._id %>" class="btn btn-primary px-4 mt-2 mt-md-0">Book Now</a>
-    <% } else { %>
-        <a href="/login" class="btn btn-primary px-4 mt-2 mt-md-0">Book</a>
-    <% } %>
-</div>
-<hr>
-
-        
+        <!-- Booking Button -->
+        <div class="d-flex flex-column flex-md-row gap-3 mb-5">
+            <% if(currentUser) { %>
+                <a href="/payments/checkout/<%= listing._id %>" class="btn btn-primary px-4 mt-2 mt-md-0">Book Now</a>
+            <% } else { %>
+                <a href="/login" class="btn btn-primary px-4 mt-2 mt-md-0">Book</a>
+            <% } %>
+        </div>
 
         <!-- Leave a Review Section -->
         <% if (currentUser) { %>
